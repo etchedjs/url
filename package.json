@@ -1,0 +1,15 @@
+{
+  "name": "@etchedjs/url",
+  "version": "1.0.0",
+  "description": "A model to create some URL templates etched objects.",
+  "type": "module",
+  "main": "url.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lcf.vs",
+  "license": "MIT",
+  "peerDependencies": {
+    "@etchedjs/etched": "8.4.2"
+  }
+}
