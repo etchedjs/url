@@ -111,7 +111,11 @@ Must be an **etched instance** of the default **iterable** `url.segments`
 
 A method that returns an instance of the current template but **fulfilled** by the provided string
 
-### stringify(trailingSlash = false)
+### toSource(trailingSlash = false)
+
+A method that returns a route based on the current instance
+
+### toString(trailingSlash = false)
 
 A method that returns a string based on the current instance
 

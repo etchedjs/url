@@ -29,6 +29,10 @@ function path (name) {
   return this[name]
 }
 
+function route (name) {
+  return this[name] ?? `:${name}`
+}
+
 export default etch(model({
   set hash (value) {
     if (typeof value !== 'string') {
@@ -68,9 +72,16 @@ export default etch(model({
       search: fulfill(search, fromEntries(params.map(param, searchParams)))
     })
   },
+  toRoute (trailingSlash = false) {
+    const { origin, segments } = this
+    const paths = keys(getPrototypeOf(segments)).map(route, segments)
+    const url = new URL(`/${paths.join('/')}${trailingSlash ? '/' : ''}`, origin)
+
+    return url.pathname
+  },
   toString (trailingSlash = false) {
     const { hash = '', origin, segments, search } = this
-    const paths = Object.keys(segments).map(path, segments)
+    const paths = keys(getPrototypeOf(segments)).map(path, segments)
     const url = new URL(`/${paths.join('/')}${trailingSlash ? '/' : ''}`, origin)
 
     entries(search).reduce(fill, url)
