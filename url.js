@@ -59,7 +59,7 @@ export default etch(model({
     }
   },
   parse (url) {
-    const { hash, origin, pathname, searchParams } = new URL(url)
+    const { hash, origin = this.origin, pathname, searchParams } = new URL(url)
     const params = [...searchParams]
     const { search, segments } = this
     const paths = pathname.split('/').filter(Boolean)

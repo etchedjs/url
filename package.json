@@ -1,6 +1,6 @@
 {
   "name": "@etchedjs/url",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A model to create some URL templates etched objects.",
   "type": "module",
   "main": "url.js",
