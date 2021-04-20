@@ -35,7 +35,7 @@ function route (name) {
 
 function validate ({ origin }, parsed, paths) {
   return parsed.origin === origin &&
-    new URL(parsed).pathname === ['', ...paths].join('/')
+    new URL(parsed).pathname === `/${paths.join('/')}`
 }
 
 export default etch(model({
