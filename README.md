@@ -7,6 +7,7 @@ A model to create some URL templates etched objects.
 ### Generic API URL models
 
 ```js
+import { etch, model } from '@etchedjs/etched'
 import url from '@etchedjs/url'
 
 export const entity = etch(url, {

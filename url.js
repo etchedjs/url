@@ -33,6 +33,11 @@ function route (name) {
   return this[name] ?? `:${name}`
 }
 
+function validate ({ origin }, parsed, paths) {
+  return parsed.origin === origin &&
+    new URL(parsed).pathname === ['', ...paths].join('/')
+}
+
 export default etch(model({
   set hash (value) {
     if (typeof value !== 'string') {
@@ -64,13 +69,18 @@ export default etch(model({
     const { search, segments } = this
     const paths = pathname.split('/').filter(Boolean)
     const names = keys(getPrototypeOf(segments))
-
-    return fulfill(this, {
+    const parsed = fulfill(this, {
       hash,
       origin,
       segments: fulfill(segments, fromEntries(names.map(segment, paths))),
       search: fulfill(search, fromEntries(params.map(param, searchParams)))
     })
+
+    if (!validate(this, parsed, paths)) {
+      throw new Error('Mismatching url')
+    }
+
+    return parsed
   },
   toRoute (trailingSlash = false) {
     const { origin, segments } = this
