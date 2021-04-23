@@ -1,4 +1,4 @@
-import { etch, etches, fulfill, iterable, model } from '@etchedjs/etched'
+import { etch, etched, etches, fulfill, iterable, model } from '@etchedjs/etched'
 
 const { entries, freeze, fromEntries, getPrototypeOf, keys } = Object
 
@@ -27,6 +27,19 @@ function segment (name, key) {
 
 function path (name) {
   return this[name]
+}
+
+function reduce (url, extensions, method) {
+  return extensions.reduce((url, extension) =>
+    etch(url, etches(etched, extension) ? extension : {}, {
+      ...extension,
+      ...extension.search && {
+        search: method(url.search, extension.search)
+      },
+      ...extension.segments && {
+        segments: method(url.segments, extension.segments)
+      }
+    }), etch(url))
 }
 
 function route (name) {
@@ -63,12 +76,19 @@ export default etch(model({
       throw new TypeError('Must be a segments')
     }
   },
+  extend (...models) {
+    return reduce(this, models, model)
+  },
+  fill (...mixins) {
+    return reduce(this, mixins, etch)
+  },
   parse (url) {
     const { hash, origin, pathname, searchParams } = new URL(url, this.origin)
     const params = [...searchParams]
     const { search, segments } = this
     const paths = pathname.split('/').filter(Boolean)
     const names = keys(getPrototypeOf(segments))
+
     const parsed = fulfill(this, {
       hash,
       origin,
@@ -83,11 +103,10 @@ export default etch(model({
     return parsed
   },
   toRoute (trailingSlash = false) {
-    const { origin, segments } = this
+    const { segments } = this
     const paths = keys(getPrototypeOf(segments)).map(route, segments)
-    const url = new URL(`/${paths.join('/')}${trailingSlash ? '/' : ''}`, origin)
 
-    return url.pathname
+    return `/${paths.join('/')}${trailingSlash ? '/' : ''}`
   },
   toString (trailingSlash = false) {
     const { hash = '', origin, segments, search } = this

@@ -7,66 +7,83 @@ A model to create some URL templates etched objects.
 ### Generic API URL models
 
 ```js
-import { etch, model } from '@etchedjs/etched'
 import url from '@etchedjs/url'
 
-export const entity = etch(url, {
-  segments: model(url.segments, {
+export const entity = url.extend({
+  segments: {
     set entity (value) {
       // to be validated
     }
-  })
+  }
 })
 
-export const entityById = etch(entity, {
-  segments: model(entity.segments, {
+export const entityById = entity.extend({
+  segments: {
     set id (value) {
       // to be validated
     }
-  })
+  }
 })
 
-export const entityRelated = etch(entityById, {
-  segments: model(entityById.segments, {
+export const entityRelated = entityById.extend({
+  segments: {
     set related (value) {
       // to be validated
     }
-  })
+  }
 })
 ```
 
 ### Project-related API URL models, inheriting on the generic ones
 ```js
-export const accounts = etch(entity, {
-  segments: model(entity.segments, {
+export const home = url.extend({
+  origin: 'https://domain.tld'
+})
+
+export const accounts = entity.extend(home, {
+  segments: {
     entity: 'accounts'
-  })
+  }
 })
 
-export const accountById = etch(entityById, accounts, {
-  segments: model(entityById.segments, accounts.segments)
-})
+export const accountById = entityById.extend(accounts)
 
-export const accountFriends = etch(entityRelated, accountById, {
-  segments: model(entityRelated.segments, accountById.segments, {
+export const accountFriends = entityRelated.extend(accountById, {
+  segments: {
     related: 'friends'
-  })
+  }
 })
 
-export const accountFriendsSearch = etch(accountFriends, {
-  search: model(accountFriends.search, {
+export const accountFriendsSearch = accountFriends.extend({
+  search: {
     set name (value) {
       // to be validated
     }
-  })
+  }
 })
 ```
 
 ### Usages
 ```js
-const href = accountFriendsSearch.parse('https://domain.tld/accounts/1/friends?name=Pierre&name=Paul')
+const href = 'https://domain.tld/accounts/1/friends?name=Pierre&name=Paul'
 
-console.log(href.toString()) // 'https://domain.tld/accounts/1/friends?name=Pierre&name=Paul'
+console.log(accountFriendsSearch.fill({
+  search: {
+    name: ['Pierre', 'Paul']
+  },
+  segments: {
+    id: 1
+  }
+}).toString())
+/*
+ 'https://domain.tld/accounts/1/friends?name=Pierre&name=Paul'
+ */
+
+console.log(accountFriendsSearch.parse(href).toString())
+/*
+ 'https://domain.tld/accounts/1/friends?name=Pierre&name=Paul'
+ */
+
 console.log(href)
 /*
 {
@@ -85,7 +102,7 @@ console.log(href)
   parse: [Function: parse],
   toString: [Function: toString]
 }
-*/
+ */
 ```
 
 ## API
@@ -107,6 +124,14 @@ Must be an **etched instance** of the default **iterable** `url.search`
 ### segments
 
 Must be an **etched instance** of the default **iterable** `url.segments`
+
+### extend(...models)
+
+A method that returns a new **model** based on the current one, and the provided models
+
+### fill(...mixins)
+
+A method that returns a new **instance** based on the current one, and the provided mixins
 
 ### parse(url)
 
