@@ -84,7 +84,7 @@ console.log(accountFriendsSearch.parse(href).toString())
  'https://domain.tld/accounts/1/friends?name=Pierre&name=Paul'
  */
 
-console.log(href)
+console.log(accountFriendsSearch.parse(href))
 /*
 {
   hash: '',
