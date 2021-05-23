@@ -1,6 +1,6 @@
 {
   "name": "@etchedjs/url",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A model to create some URL templates etched objects.",
   "type": "module",
   "main": "url.js",
@@ -11,6 +11,6 @@
   "license": "MIT",
   "peerDependencies": {
     "@etchedjs/etched": "9.0.2",
-    "@etchedjs/type": "3.1.2"
+    "@etchedjs/type": "3.1.3"
   }
 }
