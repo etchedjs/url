@@ -11,6 +11,6 @@
   "license": "MIT",
   "peerDependencies": {
     "@etchedjs/etched": "9.0.2",
-    "@etchedjs/type": "3.1.4"
+    "@etchedjs/type": "3.1.5"
   }
 }
