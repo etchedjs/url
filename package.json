@@ -1,6 +1,6 @@
 {
   "name": "@etchedjs/url",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "A model to create some URL templates etched objects.",
   "type": "module",
   "main": "url.js",
@@ -9,9 +9,17 @@
   },
   "author": "Lcf.vs",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/etchedjs/url.git"
+  },
+  "bugs": {
+    "url": "https://github.com/etchedjs/url/issues"
+  },
+  "homepage": "https://github.com/etchedjs/url#readme",
   "peerDependencies": {
     "@etchedjs/etched": "^9.1.3",
-    "@etchedjs/type": "^4.0.3"
+    "@etchedjs/type": "^4.2.0"
   },
   "devDependencies": {
     "eslint": "^7.27.0"

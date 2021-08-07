@@ -1,5 +1,6 @@
 import { etch, etched, etches, fulfill, iterable, model } from '@etchedjs/etched'
-import type, * as types from './type.js'
+import type, * as types from '@etchedjs/type'
+import { nonEmptyString } from './types.js'
 
 const { entries, freeze, fromEntries, getPrototypeOf, keys } = Object
 
@@ -54,7 +55,7 @@ function validate ({ origin }, parsed, paths) {
 
 export default etch(model(
   type('hash', types.string, e => e(), true),
-  type('origin', types.nonEmptyString, e => e()),
+  type('origin', nonEmptyString, e => e()),
   type('search', types.etched(search), e => e()),
   type('segments', types.etched(segments), e => e()),
   {
